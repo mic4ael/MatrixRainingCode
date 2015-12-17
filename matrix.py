@@ -25,8 +25,9 @@ class _MatrixRainBlock(object):
         self._x = x
         self._y = y
 
-    def draw(self):
-        rendered_text = font.render(random.choice(characters), True, foreground_color)
+    def draw(self, as_head=False):
+        text_color = (228, 216, 216) if as_head else foreground_color
+        rendered_text = font.render(random.choice(characters), True, text_color)
         screen.blit(rendered_text, (self.x, self.y))
 
     @property
@@ -54,8 +55,8 @@ class _MatrixRain(object):
             if not self._blocks:
                 return
             self._blocks.pop(0)
-        for block in self._blocks:
-            block.draw()
+        for index, block in enumerate(self._blocks):
+            block.draw(index == len(self._blocks) - 1)
 
     @property
     def finished(self):
